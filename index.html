@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rothko Auction Chart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <h1>Rothko's Highest Sold Works at Auction</h1>
+  <div class="layout">
+    <blockquote class="quote">
+      <p>“A picture lives by companionship, expanding and quickening in the eyes of the sensitive observer. It dies by the same token. It is therefore risky to send it out into the world. How often it must be impaired by the eyes of the unfeeling and the cruelty of the impotent.”</p>
+      <footer>― Mark Rothko</footer>
+    </blockquote>
+
+    <div class="chart-box">
+      <canvas id="rothko"></canvas>
+    </div>
+
+    <div class="images" id="images"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    const colors = ["#FF793A", "#306418", "#5b3a29", "#177EE6", "#F73131"];
+
+    fetch("./data.json", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((rows) => {
+        const imagesDiv = document.getElementById("images");
+        rows.forEach((row, i) => {
+          const img = document.createElement("img");
+          img.id = "img-" + i;
+          img.src = row.image;
+          img.alt = row.title;
+          img.style.borderColor = colors[i];
+          imagesDiv.appendChild(img);
+        });
+
+        const datasets = rows.map((row, i) => ({
+          label: row.title || row.dateMade + " - " + row.sellingPrice,
+          data: [
+            // price in millions
+            Number(row.sellingPrice.replace(/[^0-9]/g, "")) / 1000000,
+            // low end of estimate in millions (0 if none)
+            Number(row.estimatedPrice.split("-")[0].replace(/[^0-9]/g, "")) / 1000000,
+            // 1951-1961 -> about 9-99
+            (Number(row.dateMade) - 1950) * 9,
+            // 2012-2022 -> about 16-96
+            (new Date(row.datePurchased).getFullYear() - 2010) * 8,
+            // Christie's = 100, Sotheby's = 50
+            row.auctionHouse.includes("Christie") ? 100 : 50,
+          ],
+          borderColor: colors[i],
+          backgroundColor: colors[i] + "33",
+        }));
+
+        new Chart(document.getElementById("rothko"), {
+          type: "radar",
+          data: {
+            labels: [
+              "Selling price",
+              "Estimated price",
+              "Date made (1951 - 1961)",
+              "Date purchased (2010-2022)",
+              "Auction house",
+            ],
+            datasets,
+          },
+          options: {
+            scales: {
+              r: { min: 0, max: 100, ticks: { display: false } },
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+                onClick: (e, item, legend) => {
+                  // keep the normal behavior (hide/show the line)...
+                  Chart.defaults.plugins.legend.onClick(e, item, legend);
+                  // ...and hide/show the matching image
+                  const img = document.getElementById("img-" + item.datasetIndex);
+                  img.style.display = legend.chart.isDatasetVisible(item.datasetIndex) ? "" : "none";
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => {
+                    const row = rows[ctx.datasetIndex];
+                    const shown = [
+                      row.sellingPrice,
+                      row.estimatedPrice || "No estimate",
+                      row.dateMade,
+                      row.datePurchased,
+                      row.auctionHouse,
+                    ];
+                    return ctx.dataset.label + ": " + shown[ctx.dataIndex];
+                  },
+                },
+              },
+            },
+          },
+        });
+      });
+  </script>
+</body>
+</html>

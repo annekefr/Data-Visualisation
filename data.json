@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Orange, Red, Yellow",
+    "image": "images/orange_red_yellow.jpg",
+    "datePurchased": "May 8, 2012",
+    "sellingPrice": "US$86,882,500",
+    "auctionHouse": "Christie's - New York, Rockefeller Center",
+    "estimatedPrice": "US$35,000,000-US$45,000,000 (est)",
+    "dateMade": "1961"
+  },
+  {
+    "title": "Untitled 1951",
+    "image": "images/untitled1951.jpeg",
+    "datePurchased": "Nov 16, 2021",
+    "sellingPrice": "US$82,468,500",
+    "auctionHouse": "Sotheby's",
+    "estimatedPrice": "US$70,000,000-US$90,000,000 (est)",
+    "dateMade": "1951"
+  },
+  {
+    "title": "No. 10",
+    "image": "images/No_10.png",
+    "datePurchased": "May 13, 2015",
+    "sellingPrice": "US$81,925,000",
+    "auctionHouse": "Christie's - New York",
+    "estimatedPrice": "",
+    "dateMade": "1958"
+  },
+  {
+    "title": "No. 1 (Royal Red and Blue)",
+    "image": "images/No_1.jpg",
+    "datePurchased": "Nov 13, 2012",
+    "sellingPrice": "US$75,122,500",
+    "auctionHouse": "Sotheby's",
+    "estimatedPrice": "US$35,000,000-US$50,000,000 (est)",
+    "dateMade": "1954"
+  },
+  {
+    "title": "Untitled (Shades of Red)",
+    "image": "images/shades_of_red.jpg",
+    "datePurchased": "May 12, 2022",
+    "sellingPrice": "US$66,800,000",
+    "auctionHouse": "Christie's",
+    "estimatedPrice": "US$60,000,000-US$80,000,000 (est)",
+    "dateMade": "1961"
+  }
+]
