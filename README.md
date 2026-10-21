@@ -1,0 +1,1 @@
+This is my data-visualisation piece. I was really interested in trying to make the visuals compliment Rothko's so the CSS is relatively simple. I did the main coding for the chart.js but used claude to help me trigger the images of the paintings.
